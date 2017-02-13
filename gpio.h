@@ -4,7 +4,7 @@
  */
 #ifndef _GPIO_H_
 #define _GPIO_H_
-#define GPIOBASEADDR	0x7E200000	    //GPIO register base address
+#define GPIOBASEADDR	0x3F200000	    //GPIO register base address
 
 /* GPIO function selector registers
 000 : GPIO is an input
