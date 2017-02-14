@@ -1,0 +1,3 @@
+Complete gpio.c
+Remove asm putreg and getret and replace them by macro like in old gpio.h
+Add jtag initialisation
