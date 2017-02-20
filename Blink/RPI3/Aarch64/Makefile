@@ -27,11 +27,11 @@ $(NAME).hex : $(NAME).elf
 
 
 clean :
-	rm *.o
-	rm *.bin
-	rm *.hex
-	rm *.img
-	rm *.list
+	rm -f *.o
+	rm -f *.bin
+	rm -f *.hex
+	rm -f *.img
+	rm -f *.list
 
 
 
