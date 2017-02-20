@@ -6,6 +6,10 @@
 #include "gpio.h"
 
 #define ERR	-1
+	
+extern void PUTREG ( unsigned int, unsigned int );
+extern unsigned int GETREG ( unsigned int );
+
 
 static int check_pin(int pin)
 {
@@ -19,38 +23,68 @@ int write_function_selector_register(int pin, int mode)
 {
 	if (!check_pin(pin))
 		return ERR;
-	if (mode < 0 | mode > 7)
+	if ((mode < 0)| (mode > 7))
 		return ERR;
-
+	
 	int shift = (pin % 10) * 3;
-
-	FSEL_CLEAR_MODE(pin / 10, 7 << shift);
-	FSEL_SET_MODE(pin / 10, mode << shift);
-	return 0;
+	int reg;
+	
+	reg=GETREG(FSEL_GET_REG(pin / 10));
+    reg&=~(7 << shift);
+    reg|= mode << shift;
+	PUTREG(FSEL_GET_REG(pin / 10),reg);
+	
+	return 1;
 }
 
-int read_function_selector_register(int pin)
+/*int read_function_selector_register(int pin)
 {
 	if (!check_pin(pin))
 		return ERR;
 	int mask = 7 << ((pin % 10) * 3);
 	return (FSEL_GET_VALUE(pin / 10) & mask) << ((pin % 10) * 3);
-}
+}*/
 
 int write_output_set_register(int pin, int mode)
 {
 	if (!check_pin(pin))
 		return ERR;
+	
 	int shift = pin % 32;
+	int reg = GETREG(SET_GET_REG(pin / 32));
+	
 	if (mode == 0)
-		SET_CLEAR_PIN(pin / 32, 1 << shift);
+		reg&=~(1 << shift);
 	else if (mode == 1)
-		SET_SET_PIN(pin / 32, 1 << shift);
+		reg|=1 << shift;
 	else
 		return ERR;
-	return 0;
+	
+	PUTREG(SET_GET_REG(pin / 32),reg);
+	
+	return 1;
 }
 
+int write_output_clear_register(int pin, int mode)
+{
+	if (!check_pin(pin))
+		return ERR;
+	
+	int shift = pin % 32;
+	int reg = GETREG(CLR_GET_REG(pin / 32));
+	
+	if (mode == 0)
+		reg&=~(1 << shift);
+	else if (mode == 1)
+		reg|=1 << shift;
+	else
+		return ERR;
+	
+	PUTREG(CLR_GET_REG(pin / 32),reg);
+	
+	return 1;
+}
+/*
 int read_output_set_register(int pin)
 {
 	if (!check_pin(pin))
@@ -259,7 +293,7 @@ int read_pull_up_down_clock_register(int pin)
 	int mask = 1 << (pin % 32);
 	return (APUDCLK_GET_VALUE(pin / 32) & mask) << (pin % 32);
 }
-/*
+
 int write_pud_register(int mode)
 {
 	if (mode < 0 | mode > 3)
