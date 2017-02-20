@@ -6,7 +6,7 @@
 #include "gpio.h"
 
 #define ERR	-1
-	
+
 extern void PUTREG ( unsigned int, unsigned int );
 extern unsigned int GETREG ( unsigned int );
 
@@ -19,100 +19,57 @@ static int check_pin(int pin)
 		return 1;
 }
 
-int write_function_selector_register(int pin, int mode)
+int gpio_set_mode(int pin, int mode)
 {
 	if (!check_pin(pin))
 		return ERR;
 	if ((mode < 0)| (mode > 7))
 		return ERR;
-	
+
 	int shift = (pin % 10) * 3;
 	int reg;
-	
+
 	reg=GETREG(FSEL_GET_REG(pin / 10));
-    reg&=~(7 << shift);
-    reg|= mode << shift;
+	reg&=~(7 << shift);
+	reg|= mode << shift;
 	PUTREG(FSEL_GET_REG(pin / 10),reg);
-	
 	return 1;
 }
 
-/*int read_function_selector_register(int pin)
+int gpio_get_mode(int pin)
 {
 	if (!check_pin(pin))
 		return ERR;
-	int mask = 7 << ((pin % 10) * 3);
-	return (FSEL_GET_VALUE(pin / 10) & mask) << ((pin % 10) * 3);
-}*/
 
-int write_output_set_register(int pin, int mode)
+	int mask = 7 << ((pin % 10) * 3);
+
+	return (GETREG(FSEL_GET_REG(pin / 10)) & mask) >> ((pin % 10) * 3);
+}
+
+int gpio_set_high(int pin)
 {
 	if (!check_pin(pin))
 		return ERR;
-	
+
 	int shift = pin % 32;
 	int reg = GETREG(SET_GET_REG(pin / 32));
-	
-	if (mode == 0)
-		reg&=~(1 << shift);
-	else if (mode == 1)
-		reg|=1 << shift;
-	else
-		return ERR;
-	
+
+	reg|=1 << shift;
 	PUTREG(SET_GET_REG(pin / 32),reg);
-	
 	return 1;
 }
 
-int write_output_clear_register(int pin, int mode)
+int gpio_set_low(int pin)
 {
 	if (!check_pin(pin))
 		return ERR;
-	
+
 	int shift = pin % 32;
 	int reg = GETREG(CLR_GET_REG(pin / 32));
-	
-	if (mode == 0)
-		reg&=~(1 << shift);
-	else if (mode == 1)
-		reg|=1 << shift;
-	else
-		return ERR;
-	
+
+	reg|=1 << shift;
 	PUTREG(CLR_GET_REG(pin / 32),reg);
-	
 	return 1;
-}
-/*
-int read_output_set_register(int pin)
-{
-	if (!check_pin(pin))
-		return ERR;
-	int mask = 1 << (pin % 32);
-	return (SET_GET_VALUE(pin / 32) & mask) << (pin % 32);
-}
-
-int write_output_clear_register(int pin, int mode)
-{
-	if (!check_pin(pin))
-		return ERR;
-	int shift = pin % 32;
-	if (mode == 0)
-		CLR_CLEAR_PIN(pin / 32, 1 << shift);
-	else if (mode == 1)
-		CLR_SET_PIN(pin / 32, 1 << shift);
-	else
-		return ERR;
-	return 0;
-}
-
-int read_output_clear_register(int pin)
-{
-	if (!check_pin(pin))
-		return ERR;
-	int mask = 1 << (pin % 32);
-	return (CLR_GET_VALUE(pin / 32) & mask) << (pin % 32);
 }
 
 int read_pin_level_registers(int pin)
@@ -120,82 +77,82 @@ int read_pin_level_registers(int pin)
 	if (!check_pin(pin))
 		return ERR;
 	int mask = 1 << (pin % 32);
-	return (LEV_GET_VALUE(pin / 32) & mask) << (pin % 32);
+	return (GET_REG(LEV_GET_REG(pin / 32)) & mask) >> (pin % 32);
 }
+/*
+   int clear_event_detected(int pin)
+   {
+   if (!check_pin(pin))
+   return ERR;
+   int shift = pin % 32;
+   EDS_CLEAR_PIN((pin / 32), (1 << shift));
+   return 0;
+   }
 
-int clear_event_detected(int pin)
-{
-	if (!check_pin(pin))
-		return ERR;
-	int shift = pin % 32;
-	EDS_CLEAR_PIN((pin / 32), (1 << shift));
-	return 0;
-}
+   int read_event_detected(int pin)
+   {
+   if (!check_pin(pin))
+   return ERR;
+   int mask = 1 << (pin % 32);
+   return (EDS_GET_VALUE(pin / 32) & mask) << (pin % 32);
+   }
 
-int read_event_detected(int pin)
-{
-	if (!check_pin(pin))
-		return ERR;
-	int mask = 1 << (pin % 32);
-	return (EDS_GET_VALUE(pin / 32) & mask) << (pin % 32);
-}
+   int write_falling_edge_detect_enable_register(int pin, int mode)
+   {
+   if (!check_pin(pin))
+   return ERR;
+   int shift = pin % 32;
+   if (mode == 0)
+   FEN_CLEAR_PIN(pin / 32, 1 << shift);
+   else if (mode == 1)
+   FEN_SET_PIN(pin / 32, 1 << shift);
+   else
+   return ERR;
+   return 0;
+   }
 
-int write_falling_edge_detect_enable_register(int pin, int mode)
-{
-	if (!check_pin(pin))
-		return ERR;
-	int shift = pin % 32;
-	if (mode == 0)
-		FEN_CLEAR_PIN(pin / 32, 1 << shift);
-	else if (mode == 1)
-		FEN_SET_PIN(pin / 32, 1 << shift);
-	else
-		return ERR;
-	return 0;
-}
+   int read_falling_edge_detect_enable_register(int pin)
+   {
+   if (!check_pin(pin))
+   return ERR;
+   int mask = 1 << (pin % 32);
+   return (FEN_GET_VALUE(pin / 32) & mask) << (pin % 32);
+   }
 
-int read_falling_edge_detect_enable_register(int pin)
-{
-	if (!check_pin(pin))
-		return ERR;
-	int mask = 1 << (pin % 32);
-	return (FEN_GET_VALUE(pin / 32) & mask) << (pin % 32);
-}
+   int write_rising_edge_detect_enable_register(int pin, int mode)
+   {
+   if (!check_pin(pin))
+   return ERR;
+   int shift = pin % 32;
+   if (mode == 0)
+   REN_CLEAR_PIN(pin / 32, 1 << shift);
+   else if (mode == 1)
+   REN_SET_PIN(pin / 32, 1 << shift);
+   else
+   return ERR;
+   return 0;
+   }
 
-int write_rising_edge_detect_enable_register(int pin, int mode)
-{
-	if (!check_pin(pin))
-		return ERR;
-	int shift = pin % 32;
-	if (mode == 0)
-		REN_CLEAR_PIN(pin / 32, 1 << shift);
-	else if (mode == 1)
-		REN_SET_PIN(pin / 32, 1 << shift);
-	else
-		return ERR;
-	return 0;
-}
+   int read_rising_edge_detect_enable_register(int pin)
+   {
+   if (!check_pin(pin))
+   return ERR;
+   int mask = 1 << (pin % 32);
+   return (REN_GET_VALUE(pin / 32) & mask) << (pin % 32);
+   }
 
-int read_rising_edge_detect_enable_register(int pin)
-{
-	if (!check_pin(pin))
-		return ERR;
-	int mask = 1 << (pin % 32);
-	return (REN_GET_VALUE(pin / 32) & mask) << (pin % 32);
-}
-
-int write_high_detect_enable_register(int pin, int mode)
-{
-	if (!check_pin(pin))
-		return ERR;
-	int shift = pin % 32;
-	if (mode == 0)
-		HEN_CLEAR_PIN(pin / 32, 1 << shift);
-	else if (mode == 1)
-		HEN_SET_PIN(pin / 32, 1 << shift);
-	else
-		return ERR;
-	return 0;
+   int write_high_detect_enable_register(int pin, int mode)
+   {
+   if (!check_pin(pin))
+   return ERR;
+   int shift = pin % 32;
+   if (mode == 0)
+   HEN_CLEAR_PIN(pin / 32, 1 << shift);
+   else if (mode == 1)
+   HEN_SET_PIN(pin / 32, 1 << shift);
+else
+return ERR;
+return 0;
 }
 
 int read_high_detect_enable_register(int pin)
@@ -300,7 +257,7 @@ int write_pud_register(int mode)
 		return ERR;
 	PUD_CLEAR_PIN();
 	PUD_SET_PIN(mode)
-	return 0;
+		return 0;
 }
 
 int read_pud_register(int pin)
