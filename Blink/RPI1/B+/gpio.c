@@ -76,27 +76,34 @@ int read_pin_level_registers(int pin)
 {
 	if (!check_pin(pin))
 		return ERR;
+
 	int mask = 1 << (pin % 32);
-	return (GET_REG(LEV_GET_REG(pin / 32)) & mask) >> (pin % 32);
+
+	return (GETREG(LEV_GET_REG(pin / 32)) & mask) >> (pin % 32);
+}
+
+int clear_event_detected(int pin)
+{
+	if (!check_pin(pin))
+		return ERR;
+
+	int shift = pin % 32;
+	int reg = GETREG(EDS_GET_REG(pin / 32));
+
+	PUTREG(EDS_GET_REG(pin / 32), reg & ~(1 << shift));
+	return 0;
+}
+
+int read_event_detected(int pin)
+{
+	if (!check_pin(pin))
+		return ERR;
+
+	int mask = 1 << (pin % 32);
+
+	return (GETREG(EDS_GET_REG(pin / 32)) & mask) >> (pin % 32);
 }
 /*
-   int clear_event_detected(int pin)
-   {
-   if (!check_pin(pin))
-   return ERR;
-   int shift = pin % 32;
-   EDS_CLEAR_PIN((pin / 32), (1 << shift));
-   return 0;
-   }
-
-   int read_event_detected(int pin)
-   {
-   if (!check_pin(pin))
-   return ERR;
-   int mask = 1 << (pin % 32);
-   return (EDS_GET_VALUE(pin / 32) & mask) << (pin % 32);
-   }
-
    int write_falling_edge_detect_enable_register(int pin, int mode)
    {
    if (!check_pin(pin))
@@ -150,32 +157,32 @@ int read_pin_level_registers(int pin)
    HEN_CLEAR_PIN(pin / 32, 1 << shift);
    else if (mode == 1)
    HEN_SET_PIN(pin / 32, 1 << shift);
-else
-return ERR;
-return 0;
-}
+   else
+   return ERR;
+   return 0;
+   }
 
-int read_high_detect_enable_register(int pin)
-{
-	if (!check_pin(pin))
-		return ERR;
-	int mask = 1 << (pin % 32);
-	return (HEN_GET_VALUE(pin / 32) & mask) << (pin % 32);
-}
+   int read_high_detect_enable_register(int pin)
+   {
+   if (!check_pin(pin))
+   return ERR;
+   int mask = 1 << (pin % 32);
+   return (HEN_GET_VALUE(pin / 32) & mask) << (pin % 32);
+   }
 
-int write_low_detect_enable_register(int pin, int mode)
-{
-	if (!check_pin(pin))
-		return ERR;
-	int shift = pin % 32;
-	if (mode == 0)
-		LEN_CLEAR_PIN(pin / 32, 1 << shift);
-	else if (mode == 1)
-		LEN_SET_PIN(pin / 32, 1 << shift);
+   int write_low_detect_enable_register(int pin, int mode)
+   {
+   if (!check_pin(pin))
+   return ERR;
+int shift = pin % 32;
+if (mode == 0)
+	LEN_CLEAR_PIN(pin / 32, 1 << shift);
+else if (mode == 1)
+	LEN_SET_PIN(pin / 32, 1 << shift);
 	else
-		return ERR;
+	return ERR;
 	return 0;
-}
+	}
 
 int read_low_detect_enable_register(int pin)
 {

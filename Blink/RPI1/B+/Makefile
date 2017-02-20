@@ -31,6 +31,7 @@ clean :
 	rm -f *.hex
 	rm -f *.img
 	rm -f *.list
+	rm -f *.elf
 
 
 
