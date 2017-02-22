@@ -7,10 +7,10 @@ int blink(void)
 	int toto = 0;
 	while(1)
 	{
-		gpio_set_high(6);
+		gpio_set_high(21);
 		for (toto = 0; toto < 1000000; toto++)
 			toto = toto;
-		gpio_set_low(6);
+		gpio_set_low(21);
 		for (toto = 0; toto < 1000000; toto++)
 			toto = toto;
 	}
@@ -33,6 +33,7 @@ int main( void )
 {
 	gpio_set_mode(16, GPIO_FUNCTION_OUT);
 	gpio_set_mode(6, GPIO_FUNCTION_OUT);
+	gpio_set_mode(21, GPIO_FUNCTION_OUT);
 
 	if (init_jtag() != 0)
 		return 1;
