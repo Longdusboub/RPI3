@@ -20,7 +20,7 @@ void init_jtag(void)
 
 int main( void )
 {
-	gpio_set_mode(21, 1);
+	gpio_set_mode(21, GPIO_FUNCTION_OUT);
 	init_jtag();
 	while (1) continue;
 	return(0);

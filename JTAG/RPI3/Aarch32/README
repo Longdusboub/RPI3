@@ -1,6 +1,6 @@
-use "make all" to create the kernel8.bin
+use "make all" to create the kernel7.img
 delete kernel.img in you SD card boot partition
-copy kernel7
+copy kernel7.img
 Power your RPI
 Connect a LED to GPIO 21 to check if JTAG initialization is complete
 
