@@ -1,8 +1,9 @@
-Complete gpio.c
-Remove asm putreg and getret and replace them by macro like in old gpio.h
-Add uart management
-Finish RPI 2/3/Z folder
-Add startup.dat to enable full memory
-Add core halting in RPI 2/3
-Create and complete README
-Take over the world
+[KO]Complete gpio.c
+[OK]Remove asm putreg and getret and replace them by macro like in old gpio.h
+[KO]Split blink and JTAG folder
+[KO]Remove trailing whitespace
+[KO]Add uart management
+[KO]Finish RPI 2/3/Z folder
+[KO]Add startup.dat to enable full memory
+[KO]Create and complete README
+[KO]Take over the world

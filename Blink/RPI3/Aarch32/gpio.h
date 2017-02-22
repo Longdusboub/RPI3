@@ -2,7 +2,7 @@
  * : Alexandre "Dargor" Meunier <psychonaniste@gmail.com>
  * Descriptions : Header for Raspberry pi 3 GPIO
  */
- 
+
 #ifndef _GPIO_H_
 #define _GPIO_H_
 #define GPIOBASEADDR	0x3F200000	    //GPIO register base address

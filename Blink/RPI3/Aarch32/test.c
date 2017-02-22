@@ -1,3 +1,7 @@
+/*
+ * Authors : Alexandre "Dargor" Meunier <alexandre.meunier@epita.fr>
+ * Description : Simple LED blinking baremetal exemple for Raspberry pi 3
+ */
 
 #include "gpio.c"
 
