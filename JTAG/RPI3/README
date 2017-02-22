@@ -1,0 +1,2 @@
+Use bcm2837 to find configuration for DS-5 if you use it.
+If you use openOCD to jtag debug simply use bcm2837.cfg
