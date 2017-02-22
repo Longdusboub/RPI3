@@ -4,7 +4,7 @@ ASM = start
 OPT = -march=armv8-a -Wall -O0  -nostdlib -nostartfiles -ffreestanding
 KERNEL = kernel8
 
-all : $(NAME).hex $(NAME).bin kernel8.img
+all : $(NAME).hex $(NAME).bin $(KERNEL).img
 
 $(ASM).o : $(ASM).s
 	$(LINARO)-as $(ASM).s -o $(ASM).o

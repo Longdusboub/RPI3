@@ -10,7 +10,7 @@
 
 static int check_pin(int pin)
 {
-	(pin < 0 || pin > 53) ? 0 : 1;
+	return (pin < 0 || pin > 53) ? 0 : 1;
 }
 
 int gpio_set_mode(int pin, int mode)
