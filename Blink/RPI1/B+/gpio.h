@@ -2,11 +2,20 @@
  * : Alexandre "Dargor" Meunier <psychonaniste@gmail.com>
  * Descriptions : Header for Raspberry pi 3 GPIO
  */
- 
+
 #ifndef _GPIO_H_
 #define _GPIO_H_
 #define GPIOBASEADDR	0x20200000	    //GPIO register base address
 
+
+typedef union reg32
+{
+	int val;
+	struct bitfields
+	{
+		unsigned BF : 32;
+	} BF;
+}reg32_t;
 
 /* GPIO function selector registers */
 
@@ -28,6 +37,10 @@
 
 #define FSEL_GET_REG(X)   	    ((X == 0) ? GPFSEL0 : (X == 1) ? GPFSEL1 : (X == 2) ? GPFSEL2 : (X == 3) ? GPFSEL3 : (X == 4) ? GPFSEL4 : GPFSEL5)
 
+#define FSEL_CAST_REG(X)	    (*(volatile reg32_t *)FSEL_GET_REG(X))
+#define FSEL_GET_VALUE(X)	    (FSEL_CAST_REG(X).val)
+#define FSEL_SET_VALUE(X, V)	    (FSEL_CAST_REG(X).val = (V))
+
 /* GPIO Output Set registers
    No effect is set as an input GPIO
    0 = No effect
@@ -38,6 +51,10 @@
 
 #define SET_GET_REG(X)		    ((X == 0) ? GPSET0 : GPSET1)
 
+#define SET_CAST_REG(X)		    (*(volatile reg32_t *)SET_GET_REG(X))
+#define SET_GET_VALUE(X)	    (SET_CAST_REG(X).val)
+#define SET_SET_VALUE(X, V)	    (SET_CAST_REG(X).val = (V))
+
 /* GPIO Output Clear registers
    No effect is set as an input GPIO
    0 = No effect
@@ -47,6 +64,10 @@
 #define GPCLR1		GPIOBASEADDR + 0x2C //GPIO output clear for GPIO 32-53
 
 #define CLR_GET_REG(X)  	    ((X == 0) ? GPCLR0 : GPCLR1)
+
+#define CLR_CAST_REG(X)		    (*(volatile reg32_t *)CLR_GET_REG(X))
+#define CLR_GET_VALUE(X)	    (CLR_CAST_REG(X).val)
+#define CLR_SET_VALUE(X, V)	    (CLR_CAST_REG(X).val = (V))
 
 /* GPIO Pin Level registers
    0 = GPIO pin is low

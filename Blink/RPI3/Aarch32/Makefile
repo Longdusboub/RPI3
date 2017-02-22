@@ -1,5 +1,5 @@
 NAME = test
-LINARO = arm-none-eabi
+LINARO = arm-eabi
 ASM = start
 OPT = -march=armv8-a -Wall -O0  -nostdlib -nostartfiles -ffreestanding
 KERNEL = kernel7
