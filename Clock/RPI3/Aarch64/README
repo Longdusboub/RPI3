@@ -1,0 +1,4 @@
+use "make all" to compile then copy the kernel8.img on your SD.
+Connect logical analyser to GPIO4.
+Pulse at 25Mhz
+Enjoy.

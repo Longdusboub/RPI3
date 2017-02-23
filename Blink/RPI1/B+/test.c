@@ -23,7 +23,7 @@ int blink(void)
 
 int main( void )
 {
-	gpio_set_mode(6, 1);
+	gpio_set_mode(6, GPIO_FUNCTION_OUT);
 	blink();
 	return(0);
 }
