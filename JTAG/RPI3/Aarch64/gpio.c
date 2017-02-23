@@ -45,9 +45,7 @@ int gpio_set_high(int pin)
 	if (!check_pin(pin))
 		return ERR;
 
-	int reg = SET_GET_VALUE(pin / 32);
-
-	reg|=1 << (pin % 32);
+	int reg = 1 << (pin % 32);
 	SET_SET_VALUE(pin / 32, reg);
 	return 1;
 }
@@ -57,9 +55,7 @@ int gpio_set_low(int pin)
 	if (!check_pin(pin))
 		return ERR;
 
-	int reg = CLR_GET_VALUE(pin / 32);
-
-	reg|=1 << (pin % 32);
+	int reg = 1 << (pin % 32);
 	CLR_SET_VALUE(pin / 32, reg);
 	return 1;
 }
