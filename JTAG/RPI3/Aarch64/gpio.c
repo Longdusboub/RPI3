@@ -59,3 +59,10 @@ int gpio_set_low(int pin)
 	CLR_SET_VALUE(pin / 32, reg);
 	return 1;
 }
+
+int gpio_get_level(int pin)
+{
+	if (!check_pin(pin))
+		return ERR;
+	return (LEV_GET_VALUE(pin / 32) >> pin) & 1;
+}

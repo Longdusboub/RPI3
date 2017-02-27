@@ -77,6 +77,8 @@ typedef union reg32
 #define GPLEV1		GPIOBASEADDR + 0x38 //GPIO Pin level for GPIO 32-53
 
 #define LEV_GET_REG(X)   	    ((X == 0) ? GPLEV0 : GPLEV1)
+#define LEV_CAST_REG(X)		    (*(volatile reg32_t *)LEV_GET_REG(X))
+#define LEV_GET_VALUE(X)	    (LEV_CAST_REG(X).val)
 
 /* GPIO event detect status registers
    0 = event not detected
