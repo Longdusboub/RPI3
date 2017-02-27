@@ -45,4 +45,28 @@ CLOCK :
     [KO]Make clock for RPI1 A
     [KO]Make clock for RPIZ
 
+TIMER :
+    [KO]Create Timer folder and subfolder
+
+CORETIMER :
+    [OK]Add coretimer.c/h
+    [KO]Make CORE folder in timer
+    [OK]Make core timer for RPI3 Aarch64
+    [KO]Make core timer for RPI3 Aarch32
+    [KO]Make core timer for RPI2 B+
+    [KO]Make core timer for RPI1 B+
+    [KO]Make core timer for RPI1 A
+    [KO]Make core timer for RPIZ
+
+LOCALTIMER :
+    [OK]Add localtimer.c/h
+    [KO]Make LOCAL folder in timer
+    [OK]Make local timer for RPI3 Aarch64
+    [KO]Make local timer for RPI3 Aarch32
+    [KO]Make local timer for RPI2 B+
+    [KO]Make local timer for RPI1 B+
+    [KO]Make local timer for RPI1 A
+    [KO]Make local timer for RPIZ
+
+
 [KO]Take over the world
