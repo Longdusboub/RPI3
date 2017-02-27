@@ -4,7 +4,8 @@
  */
 
 #include "gpio.c"
-#include "localtimer.c"
+#include "coretimer.c"
+#include "interrupt.c"
 
 void switchLED(void)
 {
@@ -12,7 +13,6 @@ void switchLED(void)
 		gpio_set_low(21);
 	else
 		gpio_set_high(21);
-	local_timer_reset(2);
 }
 
 void init_jtag(void)
@@ -32,9 +32,14 @@ int main( void )
 {
 	gpio_set_mode(21, GPIO_FUNCTION_OUT);
 	init_jtag();
-	local_timer_init(0x000FFFFF);
-	while (1) if (local_timer_interrupt() == 1)
+	ct_init_timer(0x8FFF);
+	ct_set_increment(1);
+	ct_set_source(CRY);
+	ct_set_prescaler(0x00FFFFFF);
+	ct_set_ctrl_reg(0, 1);
+	while (1) if (ct_int(0, 1) == 1)
 	{
+		ct_init_timer(0x8FFF);
 		switchLED();
 	}
 	return(0);
