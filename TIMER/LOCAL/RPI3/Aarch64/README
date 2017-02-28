@@ -1,0 +1,5 @@
+use "make all" to create the kernel8.img
+delete kernel.img in you SD card boot partition
+copy kernel8.img
+Power your RPI
+Connect a LED to GPIO 21 to check if local timer works
