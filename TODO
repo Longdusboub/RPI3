@@ -1,10 +1,10 @@
 GENERAL :
-    [OK]Remove asm putreg and getret and replace them by macro like in old gpio.h
-    [OK]Split blink and JTAG folder
     [KO]Remove trailing whitespace
     [KO]Finish RPI 2/3/Z folder
     [KO]Add startup.dat to enable full memory
     [KO]Create and complete README
+    [KO]Add define for int value instead of hard coded value
+    [KO]Replace start.s by new version in every folder
 
 UART :
     [KO]Add uart.h for uart register definition
@@ -17,10 +17,7 @@ UART :
     [KO]Make uart for RPIZ
 
 JTAG :
-    [OK]Make jtag for RPI3 Aarch64
-    [OK]Make jtag for RPI3 Aarch32
     [KO]Make jtag for RPI2 B+
-    [OK]Make jtag for RPI1 B+
     [KO]Make jtag for RPI1 A
     [KO]Make jtag for RPIZ
 
@@ -28,10 +25,7 @@ GPIO :
     [KO]Complete gpio.c
 
 BLINK :
-    [OK]Make blink for RPI3 Aarch64
-    [OK]Make blink for RPI3 Aarch32
     [KO]Make blink for RPI2 B+
-    [OK]Make blink for RPI1 B+
     [KO]Make blink for RPI1 A
     [KO]Make blink for RPIZ
 
@@ -45,28 +39,20 @@ CLOCK :
     [KO]Make clock for RPI1 A
     [KO]Make clock for RPIZ
 
-TIMER :
-    [OK]Create Timer folder and subfolder
-
 CORETIMER :
-    [OK]Add coretimer.c/h
-    [OK]Make CORE folder in timer
-    [OK]Make core timer for RPI3 Aarch64
-    [OK]Make core timer for RPI3 Aarch32
     [KO]Make core timer for RPI2 B+
     [KO]Make core timer for RPI1 B+
     [KO]Make core timer for RPI1 A
     [KO]Make core timer for RPIZ
 
 LOCALTIMER :
-    [OK]Add localtimer.c/h
-    [OK]Make LOCAL folder in timer
-    [OK]Make local timer for RPI3 Aarch64
-    [OK]Make local timer for RPI3 Aarch32
+    [KO]Fix loca timer reset faillure in every folder
     [KO]Make local timer for RPI2 B+
     [KO]Make local timer for RPI1 B+
     [KO]Make local timer for RPI1 A
     [KO]Make local timer for RPIZ
 
+IRQHANDLER :
+    [KO]Clean the code.
 
 [KO]Take over the world

@@ -7,15 +7,26 @@
 #define _GPIO_H_
 #define GPIOBASEADDR	0x3F200000	    //GPIO register base address
 
-/* GPIO function selector registers
-000 : GPIO is an input
-001 : GPIO is an output
-100 : GPIO Alt0
-101 : GPIO Alt1
-110 : GPIO Alt2
-111 : GPIO Alt3
-011 : GPIO Alt4
-010 : GPIO Alt5 */
+
+typedef union reg32
+{
+	int val;
+	struct bitfields
+	{
+		unsigned BF : 32;
+	} BF;
+}reg32_t;
+
+/* GPIO function selector registers */
+
+#define GPIO_FUNCTION_IN	0b000
+#define GPIO_FUNCTION_OUT	0b001
+#define GPIO_FUNCTION_ALT0	0b100
+#define GPIO_FUNCTION_ALT1	0b101
+#define GPIO_FUNCTION_ALT2	0b110
+#define GPIO_FUNCTION_ALT3	0b111
+#define GPIO_FUNCTION_ALT4	0b011
+#define GPIO_FUNCTION_ALT5	0b010
 
 #define	GPFSEL0		GPIOBASEADDR + 0x0  //GPIO function selector for GPIO 0-9
 #define GPFSEL1		GPIOBASEADDR + 0x4  //GPIO function selector for GPIO 10-19
@@ -26,6 +37,10 @@
 
 #define FSEL_GET_REG(X)   	    ((X == 0) ? GPFSEL0 : (X == 1) ? GPFSEL1 : (X == 2) ? GPFSEL2 : (X == 3) ? GPFSEL3 : (X == 4) ? GPFSEL4 : GPFSEL5)
 
+#define FSEL_CAST_REG(X)	    (*(volatile reg32_t *)FSEL_GET_REG(X))
+#define FSEL_GET_VALUE(X)	    (FSEL_CAST_REG(X).val)
+#define FSEL_SET_VALUE(X, V)	    (FSEL_CAST_REG(X).val = (V))
+
 /* GPIO Output Set registers
    No effect is set as an input GPIO
    0 = No effect
@@ -34,7 +49,11 @@
 #define GPSET0		GPIOBASEADDR + 0x1C //GPIO output set for GPIO 0-31
 #define GPSET1		GPIOBASEADDR + 0x20 //GPIO output set for GPIO 32-53
 
-#define SET_GET_REG(X)		    ((X == 0) ? GPSET0 : GPSET1)/*
+#define SET_GET_REG(X)		    ((X == 0) ? GPSET0 : GPSET1)
+
+#define SET_CAST_REG(X)		    (*(volatile reg32_t *)SET_GET_REG(X))
+#define SET_GET_VALUE(X)	    (SET_CAST_REG(X).val)
+#define SET_SET_VALUE(X, V)	    (SET_CAST_REG(X).val = (V))
 
 /* GPIO Output Clear registers
    No effect is set as an input GPIO
@@ -46,6 +65,10 @@
 
 #define CLR_GET_REG(X)  	    ((X == 0) ? GPCLR0 : GPCLR1)
 
+#define CLR_CAST_REG(X)		    (*(volatile reg32_t *)CLR_GET_REG(X))
+#define CLR_GET_VALUE(X)	    (CLR_CAST_REG(X).val)
+#define CLR_SET_VALUE(X, V)	    (CLR_CAST_REG(X).val = (V))
+
 /* GPIO Pin Level registers
    0 = GPIO pin is low
    1 = GPIO pin is high */
@@ -54,6 +77,8 @@
 #define GPLEV1		GPIOBASEADDR + 0x38 //GPIO Pin level for GPIO 32-53
 
 #define LEV_GET_REG(X)   	    ((X == 0) ? GPLEV0 : GPLEV1)
+#define LEV_CAST_REG(X)		    (*(volatile reg32_t *)LEV_GET_REG(X))
+#define LEV_GET_VALUE(X)	    (LEV_CAST_REG(X).val)
 
 /* GPIO event detect status registers
    0 = event not detected
@@ -86,7 +111,7 @@
    0 = High detect is disable
    1 = High on corresponding pin set corresponding bit in GPEDS */
 
-#defIne	GPHEN0 		GPIOBASEADDR + 0x64 //GPIO High detect enable for gpio 0-31
+#define	GPHEN0 		GPIOBASEADDR + 0x64 //GPIO High detect enable for gpio 0-31
 #define	GPHEN1		GPIOBASEADDR + 0x68 //GPIO High detect enable for gpio 32-53
 
 #define HEN_GET_REG(X)   	    ((X == 0) ? GPHEN0 : GPHEN1)

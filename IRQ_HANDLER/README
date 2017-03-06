@@ -1,0 +1,2 @@
+Folder for raspberry pi Irq_handler.
+The raspberry pi 3 will use coretimer as an interrupt source in the following exemple

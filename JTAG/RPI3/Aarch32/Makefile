@@ -12,8 +12,8 @@ $(ASM).o : $(ASM).s
 $(NAME).o : $(NAME).c
 	$(LINARO)-gcc $(OPT) -c $(NAME).c -o $(NAME).o
 
-$(NAME).elf : memmap start.o $(NAME).o
-	$(LINARO)-ld $(ASM).o $(NAME).o -T memmap -o $(NAME).elf
+$(NAME).elf : linker.ld start.o $(NAME).o
+	$(LINARO)-ld $(ASM).o $(NAME).o -T linker.ld -o $(NAME).elf
 	$(LINARO)-objdump -D $(NAME).elf > $(NAME).list
 
 $(NAME).bin : $(NAME).elf
