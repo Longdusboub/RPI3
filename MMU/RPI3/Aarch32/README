@@ -1,0 +1,6 @@
+use "make all" to create the kernel7.img
+delete kernel.img in you SD card boot partition
+copy kernel7.img
+Power your RPI
+The MMU mapping is a simple phy = Virt mapping starting at 0x4000 ending at 0x7FFF with 4096 pages of 1mb.
+Connect a LED to GPIO 21 and 6 to check if mmu set up properly
