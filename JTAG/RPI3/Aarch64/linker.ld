@@ -1,8 +1,6 @@
-OUTPUT_ARCH(arm)
 
 MEMORY
 {
-	/* Trusted BOOT ROM  */ boot_rom : org = 0x00000000, len = 0x00000100
 	/* Trusted RAM */       ram      : org = 0x00008000, len = 0x00040000
 }
 
