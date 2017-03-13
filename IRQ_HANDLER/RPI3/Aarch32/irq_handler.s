@@ -2,7 +2,7 @@
 
 
 exception_vector:
-    b reset_handler
+    b _start
     b undefined_handler
     b svc_handler
     b prefetch_handler
@@ -20,8 +20,7 @@ irq_handler:
     subs pc, lr, #4
 
 reset_handler:
-    bl switchanotherLED
-    b svc_handler
+    b reset_handler
 
 undefined_handler:
     b undefined_handler

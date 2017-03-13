@@ -28,12 +28,6 @@ void switchOtherLED(void)
 	level = (level + 1) % 2;
 }
 
-void switchanotherLED(void)
-{
-	gpio_set_mode(19, GPIO_FUNCTION_OUT);
-	gpio_set_high(19);
-}
-
 void init_jtag(void)
 {
 	gpio_set_mode(4, GPIO_FUNCTION_ALT5);
@@ -42,19 +36,23 @@ void init_jtag(void)
 	gpio_set_mode(24, GPIO_FUNCTION_ALT4);
 	gpio_set_mode(25, GPIO_FUNCTION_ALT4);
 	gpio_set_mode(27, GPIO_FUNCTION_ALT4);
-	gpio_set_high(21);
 }
 
 
 
 int main(void)
 {
+	//Set up GPIO for interrupt handler
 	gpio_set_mode(6, GPIO_FUNCTION_OUT);
+	gpio_set_mode(21, GPIO_FUNCTION_OUT);
+
+	//Add handler for bot interrupt
 	add_handler(switchOtherLED, 11);
+	add_handler(switchLED, 1);
+
+	//Initialise both timer
 	local_timer_set_routing(0);
 	local_timer_init(0x0FFFFFF);
-	add_handler(switchLED, 1);
-	gpio_set_mode(21, GPIO_FUNCTION_OUT);
 	ct_init_timer(0x8FFF);
 	ct_set_increment(1);
 	ct_set_source(CRY);

@@ -2,11 +2,11 @@ OUTPUT_ARCH(arm)
 
 MEMORY
 {
-	/* Trusted BOOT ROM  */ boot_rom : org = 0x00000000, len = 0x00000100
 	/* Trusted RAM */       ram      : org = 0x00008000, len = 0x00040000
-	/* Irq handler */	irq	 : org = 0x00080000, len = 0x00000200
+	/* Irq handler */	irq	 : org = 0x00010000, len = 0x00001000
 }
 
+ENTRY(_start)
 
 SECTIONS
 {
