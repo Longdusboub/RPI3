@@ -1,0 +1,5 @@
+use "make all" to create the kernel7.img
+delete kernel.img in you SD card boot partition
+copy kernel7.img
+Use minicom/putty with baudrate = 9600 no parity bit one stop bit and 8bit data
+Power your RPI

@@ -5,6 +5,16 @@ GENERAL :
     [KO]Create and complete README
     [KO]Add define for int value instead of hard coded value
     [KO]Replace start.s by new version in every folder
+    [KO]Add some folder for rpiZW ?
+    [KO]Add define in every headers files
+
+MUART :
+    [KO]Make muart for RPI3 Aarch64
+    [KO]Make muart for RPI2 B+
+    [KO]Make muart for RPI1 B+
+    [KO]Make muart for RPI1 A
+    [KO]Make muart for RPIZ
+    [KO]Make muart for RPIZW
 
 UART :
     [KO]Add uart.h for uart register definition
@@ -15,11 +25,22 @@ UART :
     [KO]Make uart for RPI1 B+
     [KO]Make uart for RPI1 A
     [KO]Make uart for RPIZ
+    [KO]Make uart for RPIZW
 
 JTAG :
     [KO]Make jtag for RPI2 B+
     [KO]Make jtag for RPI1 A
     [KO]Make jtag for RPIZ
+
+STUB :
+    [KO]Complete bootstub with better multi core management
+    [KO]Make stub for RPI3 Aarch64
+    [KO]Make stub for RPI3 Aarch32
+    [KO]Make stub for RPI2 B+
+    [KO]Make stub for RPI1 B+
+    [KO]Make stub for RPI1 A
+    [KO]Make stub for RPIZ
+    [KO]Make stub for RPIZW
 
 GPIO :
     [KO]Complete gpio.c
@@ -28,22 +49,14 @@ BLINK :
     [KO]Make blink for RPI2 B+
     [KO]Make blink for RPI1 A
     [KO]Make blink for RPIZ
-
-CLOCK :
-    [KO]Add clock.c file
-    [KO]Test clock function
-    [KO]Make clock for RPI3 Aarch64
-    [KO]Make clock for RPI3 Aarch32
-    [KO]Make clock for RPI2 B+
-    [KO]Make clock for RPI1 B+
-    [KO]Make clock for RPI1 A
-    [KO]Make clock for RPIZ
+    [KO]Make blink for RPIZW
 
 CORETIMER :
     [KO]Make core timer for RPI2 B+
     [KO]Make core timer for RPI1 B+
     [KO]Make core timer for RPI1 A
     [KO]Make core timer for RPIZ
+    [KO]Make core timer for RPIZW
 
 LOCALTIMER :
     [KO]Fix loca timer reset faillure in every folder
@@ -51,8 +64,8 @@ LOCALTIMER :
     [KO]Make local timer for RPI1 B+
     [KO]Make local timer for RPI1 A
     [KO]Make local timer for RPIZ
-
-IRQHANDLER :
-    [KO]Clean the code.
+    [KO]Make local timer for RPIZW
 
 [KO]Take over the world
+[KO]Buy rpi pi A+
+[KO]Try to use the picam baremetal
