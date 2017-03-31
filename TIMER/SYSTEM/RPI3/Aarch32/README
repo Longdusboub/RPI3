@@ -1,0 +1,5 @@
+use "make all" to create the kernel7.img
+delete kernel.img in you SD card boot partition
+copy kernel7.img
+Power your RPI
+Connect a LED to GPIO 21 and it will blink every 100ms using system timer interrupt
