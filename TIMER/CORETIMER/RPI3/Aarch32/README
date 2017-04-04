@@ -2,4 +2,4 @@ use "make all" to create the kernel8.img
 delete kernel.img in you SD card boot partition
 copy kernel7.img
 Power your RPI
-Connect a LED to GPIO 21 to check if core timer init and blink works.
+Connect a LED to GPIO 21 and 6 to check if irq_handler correctly handle core and local timer interrupt
