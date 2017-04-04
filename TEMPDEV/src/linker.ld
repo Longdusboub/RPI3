@@ -3,7 +3,8 @@ MEMORY
 {
 	/* Armstub     */	ars      : org = 0x00000000, len = 0x00000200
 	/* Irq handler */	han	 : org = 0x00001000, len = 0x00001000
-	/* Trusted RAM */       ram      : org = 0x00008000, len = 0x00040000
+	/* SP 4cores   */	sp	 : org = 0x00008000, len = 0x00004000
+	/* Trusted RAM */       ram      : org = 0x0000C000, len = 0x00040000
 }
 
 ENTRY(_start)

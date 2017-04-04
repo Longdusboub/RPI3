@@ -1,38 +1,10 @@
 .global _start
-_start:
-    MRC p15, 0, r0, c0, c0, 5
-    AND r0, #0x000F
-    CMP r0, #0x0
-    BEQ master_boot
-    B	slave_boot
 
+/* Variable declaration */
 readbox: .word 0x400000CC /* Mailbox 3 */
 freq: .word 19200000 /* 19.2 Mhz */
 
-/* Cores 1-2-3 wait for addr to jump from core 0
-   Then execute the core located at the specified addr
-   Then go back here and continues to wait for instruction
-   This is fun every sentence is longer than the previous one */
-slave_boot:
-    LDR lr,=rearm_loop
-    MOV r2, #0x2000
-    MOV r3, #0x400
-    MUL r4, r3, r0
-    ADD r4, r4, r2
-    MOV sp, r4
-rearm_loop:
-    MRC p15, 0, r0, c0, c0, 5
-    AND r0, #0x000F
-    LDR r5, readbox
-wait_loop:
-    LDR r1, [r5, r0, lsl #4]
-    CMP r1, #0
-    BEQ wait_loop
-    STR r1, [r5, r0, lsl #4]
-    BX r1
-
-
-/* Core 0 boot
+/* Core boot
    => Set sp of different mode
    => Set irq vector
    => enable irq
@@ -41,10 +13,27 @@ wait_loop:
    => ?????
    => Profit */
 
-master_boot:
-    /* Set up stack pointer and jtag */
-    MOV sp, #0x3000
+_start:
+    /* Get core ID */
+    MRC p15, 0, r4, c0, c0, 5
+    AND r4, #0x000F
+
+    /* Get sp base address for current core */
+    MOV r3, #0x8400
+    MOV r2, #0x1000
+    MUL r1, r2, r4
+    ADD r3, r3, r1 
+
+    /* Set base SP */
+    MOV sp, r3
+
+    /* Only core 0 init JTAG */
+    CMP r4, #0x0
+    BNE no_jtag
+    PUSH {r3}
     BL init_jtag
+    POP {r3}
+no_jtag:
 
     /* Enable data and instruction cache */
     MRC p15, 0, r0, c1, c0, 0
@@ -82,7 +71,8 @@ master_boot:
     MSR cpsr_cxfs, r0
 
     /* Set irq stack pointer */
-    MOV sp, #0x3800
+    ADD r3, #0x400
+    MOV sp, r3
 
     /* Switch to abort mode */
     BIC r0, r0, #0x1F
@@ -90,19 +80,38 @@ master_boot:
     MSR cpsr_cxfs, r0
 
     /* Set abort mode stack pointer */
-    MOV sp, #0x3400
+    ADD r3, #0x400
+    MOV sp, r3
 
     /* Get back to svc mode */
     BIC r0, r0, #0x1F
     ORR r0, r0, #0x13
     MSR cpsr_cxfs, r0
 
+
+    CMP r4, #0x0
+    BEQ master_boot
+    B	slave_boot
+
+master_boot:
     BL main
-
-    smc #0
-
-    /* Enable IRQ */
-    CPSIE I
-
-    /* Wait */
     B .
+
+
+
+/* Cores 1-2-3 wait for addr to jump from core 0
+   Then execute the core located at the specified addr
+   Then go back here and continues to wait for instruction
+   This is fun every sentence is longer than the previous one */
+slave_boot:
+    LDR lr,=rearm_loop
+rearm_loop:
+    MRC p15, 0, r0, c0, c0, 5
+    AND r0, #0x000F
+    LDR r5, readbox
+wait_loop:
+    LDR r1, [r5, r0, lsl #4]
+    CMP r1, #0
+    BEQ wait_loop
+    STR r1, [r5, r0, lsl #4]
+    BX r1
