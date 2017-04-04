@@ -3,7 +3,7 @@
  * Descriptions : Function for BCM 2836-7 local timer management
  */
 
-#include "../include/localtimer.h"
+#include "localtimer.h"
 
 void local_timer_set_routing(int mode)
 {
@@ -31,6 +31,7 @@ void local_timer_change_counter(int value)
 void local_timer_init(int reload)
 {
     LT_SET_REG(LT_CONTROL_REG, LT_ENABLE_IRQ | LT_ENABLE | reload);
+    local_timer_reset();
 }
 
 int local_timer_interrupt(void)

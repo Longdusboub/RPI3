@@ -1,10 +1,10 @@
-/* 
+/*
  * Authors : Alexandre "Dargor" Meunier <psychonaniste@gmail.com>
  * Description : C file for bcm2837 system timer
  * Sources : BCM2835 peripheral documentation
  */
 
-#include "../include/systemtimer.h"
+#include "systemtimer.h"
 
 void st_set_timer(unsigned int value, unsigned int unit, unsigned int compare)
 {

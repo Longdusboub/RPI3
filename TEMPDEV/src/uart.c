@@ -3,7 +3,7 @@
  * Description : simple uart0 manager for raspberry pi 3
  */
 
-#include "../include/uart.h"
+#include "uart.h"
 
 void uart_send_char(char c)
 {

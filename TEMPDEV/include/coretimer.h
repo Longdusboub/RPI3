@@ -6,6 +6,16 @@
 #ifndef _CORETIMER_H_
  #define _CORETIMER_H_
 
+#define CT_PRESCALER_1	    0x80000000
+
+#define CT_PRESCALER_192    0x06AAAAAB
+
+#define CT_MS_1		    19200
+#define CT_MS_192	    1000
+
+#define APB 2
+#define CRY 1
+
 #define CT_BASE_ADDR	0x40000000
 
 #define CT_CTRL_REG	0x40000000

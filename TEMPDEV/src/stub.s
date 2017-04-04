@@ -6,18 +6,40 @@ _start:
     BEQ master_boot
     B	slave_boot
 
-readbox: .word 0x400000CC
+readbox: .word 0x400000CC /* Mailbox 3 */
 freq: .word 19200000 /* 19.2 Mhz */
 
+/* Cores 1-2-3 wait for addr to jump from core 0
+   Then execute the core located at the specified addr
+   Then go back here and continues to wait for instruction
+   This is fun every sentence is longer than the previous one */
 slave_boot:
+    LDR lr,=rearm_loop
+    MOV r2, #0x2000
+    MOV r3, #0x400
+    MUL r4, r3, r0
+    ADD r4, r4, r2
+    MOV sp, r4
+rearm_loop:
+    MRC p15, 0, r0, c0, c0, 5
+    AND r0, #0x000F
     LDR r5, readbox
 wait_loop:
     LDR r1, [r5, r0, lsl #4]
     CMP r1, #0
     BEQ wait_loop
     STR r1, [r5, r0, lsl #4]
-    MOV sp, #0x2000
     BX r1
+
+
+/* Core 0 boot
+   => Set sp of different mode
+   => Set irq vector
+   => enable irq
+   => init jtag
+   => Some black magic
+   => ?????
+   => Profit */
 
 master_boot:
     /* Set up stack pointer and jtag */
@@ -68,7 +90,7 @@ master_boot:
     MSR cpsr_cxfs, r0
 
     /* Set abort mode stack pointer */
-    MOV sp, #0x2800
+    MOV sp, #0x3400
 
     /* Get back to svc mode */
     BIC r0, r0, #0x1F

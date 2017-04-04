@@ -3,7 +3,7 @@
  * Description : Function for raspberry pi 3 armv7 MMU
  */
 
-#include "../include/mmu.h"
+#include "mmu.h"
 
 
 void mmu_add_page(unsigned int vaddr, unsigned int paddr, int flags)

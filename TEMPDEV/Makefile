@@ -2,7 +2,7 @@ NAME = test
 LINARO = arm-eabi
 ASM = stub
 HANDLER = irq_handler
-OPT = -march=armv7-a -Wall -O0  -nostdlib -nostartfiles -ffreestanding
+OPT = -Iinclude/ -march=armv7-a -Wall -O0  -nostdlib -nostartfiles -ffreestanding
 KERNEL = kernel7
 
 all : $(NAME).hex $(NAME).bin $(KERNEL).img

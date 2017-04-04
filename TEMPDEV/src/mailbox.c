@@ -3,7 +3,7 @@
  * Descriptions : C file for the BCM 2836/7 mailbox management
  */
 
-#include "../include/mailbox.h"
+#include "mailbox.h"
 
 void mailbox_write(int core, int mailbox, int message)
 {

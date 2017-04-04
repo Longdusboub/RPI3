@@ -3,7 +3,7 @@
  * Description : Function for interrupt sources register for raspberry pi 3
  */
 
-#include "../include/interrupt.h"
+#include "interrupt.h"
 
 int ct_int(int core, int inte)
 {

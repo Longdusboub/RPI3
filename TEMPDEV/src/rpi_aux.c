@@ -3,7 +3,7 @@
  * Description : Simple uart management for raspberry pi 3
  */
 
-#include "../include/rpi_aux.h"
+#include "rpi_aux.h"
 
 void aux_mu_putchar(char x)
 {
@@ -21,7 +21,7 @@ void aux_mu_putstring(char tab[])
 
 char aux_mu_getchar(void)
 {
-	char temp = (AUX_GET_REG(AUX_MU_IO_REG) & 0xFF);
+	char temp = (AUX_GET_REG(AUX_MU_IO_REG));
 	aux_mu_putchar(temp); //ECHO FOR USER
 	return temp;
 }

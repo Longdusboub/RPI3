@@ -3,10 +3,7 @@
  * Description : Function for raspberry pi 3 core timer.
  */
 
-#include "../include/coretimer.h"
-
-#define APB 2
-#define CRY 1
+#include "coretimer.h"
 
 int ct_set_increment(int inc)
 {
@@ -46,8 +43,8 @@ int ct_clr_ctrl_reg(int core, int mode)
 
 int ct_init_timer(int value)
 {
-    asm("mov r1, #0x4B00");
-    asm("mul r0, r0, r1");
+    /*asm("mov r1, #0x4B00");*/
+    //asm("mul r0, r0, r1");
     asm("mov r5, #0x1");
     asm("MCR p15, 0, r0, c14, c2, 0");
     asm("MCR p15, 0, r5, c14, c2, 1");

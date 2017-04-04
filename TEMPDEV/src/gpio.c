@@ -3,7 +3,7 @@
  * Descriptions : Function to manipulate Raspberry pi 3 GPIO
  */
 
-#include "../include/gpio.h"
+#include "gpio.h"
 
 #define ERR	-1
 
